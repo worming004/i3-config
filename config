@@ -194,3 +194,6 @@ exec xrandr --output DP-2 --right-of HDMI-0
 bar {
         status_command i3status
 }
+
+# key repeat
+exec --no-startup-id xset r rate 180 40
