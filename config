@@ -197,4 +197,4 @@ bar {
 
 # key repeat
 exec --no-startup-id xset r rate 180 40
-exec --no-startup-id setxkbmap -layout 'us,be' -option 'grp:alt_shift_toggle'
+exec --no-startup-id setxkbmap -layout 'us,be' -option 'grp:ctrl_shift_toggle'
