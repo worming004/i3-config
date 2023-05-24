@@ -199,3 +199,7 @@ bar {
 # key repeat
 exec --no-startup-id xset r rate 180 40
 exec --no-startup-id setxkbmap -layout 'us,be' -option 'grp:lctrl_lwin_toggle'
+
+exec_always --no-startup-id nitrogen --restore
+
+exec --no-startup-id picom -b -f
