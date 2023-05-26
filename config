@@ -187,7 +187,7 @@ bindsym $mod+r mode "resize"
 bindsym $mod+x move workspace to output next
 
 # configure monitor order
-exec xrandr --output DP-2 --right-of HDMI-0 --primary
+exec_always xrandr --output DP-2 --right-of HDMI-0 --primary
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -197,9 +197,9 @@ bar {
 }
 
 # key repeat
-exec --no-startup-id xset r rate 180 40
-exec --no-startup-id setxkbmap -layout 'us,be' -option 'grp:lctrl_lwin_toggle'
+exec_always --no-startup-id xset r rate 180 40
+exec_always --no-startup-id setxkbmap -layout 'us,be' -option 'grp:lctrl_lwin_toggle'
 
 exec_always --no-startup-id nitrogen --restore
 
-exec --no-startup-id picom -b -f
+exec_always --no-startup-id picom -b -f
