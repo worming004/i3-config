@@ -258,8 +258,8 @@ for_window [class="Slack"] move to workspace $chat
 for_window [class="Google-chrome"] move to workspace $web
 for_window [class="firefox"] move to workspace $web
 
-exec --no-startup-id Spotify
-exec --no-startup-id Google-chrome
-exec --no-startup-id Slack
+exec --no-startup-id spotify
+exec --no-startup-id google-chrome-stable
+exec --no-startup-id slack
 exec --no-startup-id discord
 
