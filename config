@@ -69,7 +69,7 @@ bindsym $mod+Shift+q kill
 # bindsym $mod+d exec --no-startup-id wofi --show run
 # bindsym $mod+d exec wofi --show run 
 
-set $menu wofi --show run
+set $menu wofi --show drun --allow_images=true
 bindsym $mod+d exec $menu
 
 # bindsym $mod+d exec wofi --show run | xargs swaymsg exec
@@ -264,9 +264,9 @@ for_window [class="Google-chrome"] move to workspace $web
 for_window [class="firefox"] move to workspace $web
 for_window [class="thunderbird"] move to workspace $mail
 
-exec --no-startup-id spotify
-exec --no-startup-id google-chrome-stable
-exec --no-startup-id slack
+exec --no-startup-id spotify --enable-features=UseOzonePlatform --ozone-platform=wayland
+exec --no-startup-id google-chrome-stable --enable-features=UseOzonePlatform --ozone-platform=wayland
+exec --no-startup-id slack --enable-features=UseOzonePlatform --ozone-platform=wayland
 exec --no-startup-id discord
 exec --no-startup-id thunderbird
 
