@@ -39,7 +39,6 @@ exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 
-set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
@@ -50,10 +49,11 @@ floating_modifier $mod
 
 # move tiling windows via drag & drop by left-clicking into the title bar,
 # or left-clicking anywhere into the window while holding the floating modifier.
-tiling_drag modifier titlebar
+# tiling_drag modifier titlebar
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+# bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -64,11 +64,17 @@ bindsym $mod+Shift+q kill
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
-bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
-bindsym $mod+z exec --no-startup-id morc_menu
+# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
+# bindsym $mod+z exec --no-startup-id dmenu_run
+# bindsym $mod+d exec --no-startup-id wofi --show run
+# bindsym $mod+d exec wofi --show run 
 
+set $menu wofi --show run
+bindsym $mod+d exec $menu
 
+# bindsym $mod+d exec wofi --show run | xargs swaymsg exec
 
+bindsym $mod+g exec --no-startup-id foot
 
 # change focus
 bindsym $mod+h focus left
@@ -160,7 +166,7 @@ bindsym $mod+Shift+8 move container to workspace number $web
 bindsym $mod+Shift+9 move container to workspace number $chat
 bindsym $mod+Shift+0 move container to workspace number $spotify
 
-# reload the configuration file
+#reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
@@ -189,16 +195,17 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
-bindsym $mod+m mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+bindsym $mod+m mode "$mode_system"
 mode "$mode_system" {
-	bindsym l exec --no-startup-id i3exit lock, mode "default"
-	bindsym s exec --no-startup-id i3exit suspend, mode "default"
-	bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-	bindsym e exec --no-startup-id i3exit logout, mode "default"
-	bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-	bindsym r exec --no-startup-id i3exit reboot, mode "default"
-	bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+	# TODO
+	bindsym l exec --no-startup-id swaylock, mode "default"
+	bindsym s exec --no-startup-id swaymsg exec suspend, mode "default"
+	bindsym u exec --no-startup-id swaymsg exec switch_user, mode "default"
+	bindsym e exec --no-startup-id swaymsg exec logout, mode "default"
+	bindsym h exec --no-startup-id swaymsg exec hibernate, mode "default"
+	bindsym r exec --no-startup-id swaymsg exec reboot, mode "default"
+	bindsym Shift+s exec --no-startup-id swaymsg exec shutdown, mode "default"
 
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
@@ -208,32 +215,30 @@ mode "$mode_system" {
 bindsym $mod+r mode "resize"
 
 # to move workspace to next window
-bindsym $mod+x move workspace to output next
+# bindsym $mod+x move workspace to output next
+bindsym $mod+x exec "swaymsg -t get_outputs |jq '[.[] | select(.active == true)] | .[(map(.focused) | index(true) + 1) % length].name' |xargs swaymsg move workspace to"
 
 # configure monitor order
-exec_always xrandr --output DP-2 --right-of HDMI-0 --primary
+output DP-2 pos 1920 0 res 3440x1440
+output HDMI-A-2 pos 0 500 res 1920x1080 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
-        tray_output primary
+  strip_workspace_numbers yes
 
-
-        strip_workspace_numbers yes
-
-          colors {
-              background #222D31
-              statusline #F9FAF9
-              separator  #454947
+  colors {
+      background #222D31
+      statusline #F9FAF9
+      separator  #454947
 
 #                      border  backgr. text
-              focused_workspace  #F9FAF9 #16a085 #292F34
-              active_workspace   #595B5B #353836 #FDF6E3
-              inactive_workspace #595B5B #222D31 #EEE8D5
-              binding_mode       #16a085 #2C2C2C #F9FAF9
-              urgent_workspace   #16a085 #FDF6E3 #E5201D
-          }
+      focused_workspace  #F9FAF9 #16a085 #292F34
+      active_workspace   #595B5B #353836 #FDF6E3
+      inactive_workspace #595B5B #222D31 #EEE8D5
+      binding_mode       #16a085 #2C2C2C #F9FAF9
+      urgent_workspace   #16a085 #FDF6E3 #E5201D
+  }
 }
 
 gaps inner 8
@@ -242,12 +247,15 @@ smart_gaps on
 smart_borders on
 
 # key repeat
-exec_always --no-startup-id xset r rate 180 40
+# exec_always --no-startup-id xset r rate 180 40
+input type:keyboard {
+	repeat_delay 180
+	repeat_rate 40
+	xkb_layout us,be
+	xkb_variant ,nodeadkeys
+	xkb_options grp:lctrl_lwin_toggle
+}
 exec_always --no-startup-id setxkbmap -layout 'us,be' -option 'grp:lctrl_lwin_toggle'
-
-exec_always --no-startup-id nitrogen --restore
-
-exec_always --no-startup-id picom -b -f
 
 for_window [class="Spotify"] move to workspace $spotify
 for_window [class="discord"] move to workspace $chat
