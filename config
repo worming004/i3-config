@@ -259,8 +259,8 @@ exec_always --no-startup-id setxkbmap -layout 'us,be' -option 'grp:lctrl_lwin_to
 
 for_window [class="Spotify"] move to workspace $spotify
 for_window [class="discord"] move to workspace $chat
-for_window [class="Slack"] move to workspace $chat
-for_window [class="Google-chrome"] move to workspace $web
+for_window [app_id="Slack"] move to workspace $chat
+for_window [app_id="google-chrome"] move to workspace $web
 for_window [class="firefox"] move to workspace $web
 for_window [class="thunderbird"] move to workspace $mail
 
