@@ -257,8 +257,6 @@ input type:keyboard {
 	xkb_variant ,nodeadkeys
 	xkb_options grp:lctrl_lwin_toggle
 }
-exec_always --no-startup-id setxkbmap -layout 'us,be' -option 'grp:lctrl_lwin_toggle'
-
 for_window [class="Spotify"] move to workspace $spotify
 for_window [class="discord"] move to workspace $chat
 for_window [app_id="Slack"] move to workspace $chat
