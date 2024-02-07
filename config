@@ -22,59 +22,27 @@ font xft:URWGothic-Book 11
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
-# Start XDG autostart .desktop files using dex. See also
-# https://wiki.archlinux.org/index.php/XDG_Autostart
-exec --no-startup-id dex-autostart --autostart --environment i3
-
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
-# they are included here as an example. Modify as you see fit.
-
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
-
 # Use pactl to adjust volume in PulseAudio.
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle 
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# move tiling windows via drag & drop by left-clicking into the title bar,
-# or left-clicking anywhere into the window while holding the floating modifier.
-# tiling_drag modifier titlebar
-
 # start a terminal
-# bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec kitty
+# fallback to foot term if kitty do not works
+bindsym $mod+g exec --no-startup-id foot
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start dmenu (a program launcher)
-# bindsym $mod+d exec --no-startup-id dmenu_run
-# A more modern dmenu replacement is rofi:
-# bindcode $mod+40 exec "rofi -modi drun,run -show drun"
-# There also is i3-dmenu-desktop which only displays applications shipping a
-# .desktop file. It is a wrapper around dmenu, so you need that installed.
-# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
-# bindsym $mod+z exec --no-startup-id dmenu_run
-# bindsym $mod+d exec --no-startup-id wofi --show run
-# bindsym $mod+d exec wofi --show run 
-
+# TODO find desktop path
 set $menu wofi --show drun --allow_images=true
 bindsym $mod+d exec $menu
-
-# bindsym $mod+d exec wofi --show run | xargs swaymsg exec
-
-bindsym $mod+g exec --no-startup-id foot
 
 # change focus
 bindsym $mod+h focus left
@@ -82,23 +50,11 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+u split h
@@ -218,28 +174,10 @@ bindsym $mod+r mode "resize"
 # bindsym $mod+x move workspace to output next
 bindsym $mod+x exec "swaymsg -t get_outputs |jq '[.[] | select(.active == true)] | .[(map(.focused) | index(true) + 1) % length].name' |xargs swaymsg move workspace to"
 
-# configure monitor order
-output DP-2 pos 1920 0 res 3440x1440
+# configure monitor order, resolution and background
+output DP-2 pos 1920 0 res 3440x1440 
 output HDMI-A-2 pos 0 500 res 1920x1080 
-
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-# bar {
-#   strip_workspace_numbers yes
-#
-#   colors {
-#       background #222D31
-#       statusline #F9FAF9
-#       separator  #454947
-#
-# #                      border  backgr. text
-#       focused_workspace  #F9FAF9 #16a085 #292F34
-#       active_workspace   #595B5B #353836 #FDF6E3
-#       inactive_workspace #595B5B #222D31 #EEE8D5
-#       binding_mode       #16a085 #2C2C2C #F9FAF9
-#       urgent_workspace   #16a085 #FDF6E3 #E5201D
-#   }
-# }
+output * bg #4e3f5c solid_color
 
 bar swaybar_command waybar
 
