@@ -41,7 +41,7 @@ bindsym $mod+g exec --no-startup-id foot
 bindsym $mod+Shift+q kill
 
 # TODO find desktop path
-set $menu wofi --show drun --allow_images=true
+set $menu wofi --show drun --allow-images=true --insensitive
 bindsym $mod+d exec $menu
 
 # change focus
@@ -161,7 +161,7 @@ mode "$mode_system" {
 	bindsym e exec --no-startup-id swaymsg exec logout, mode "default"
 	bindsym h exec --no-startup-id swaymsg exec hibernate, mode "default"
 	bindsym r exec --no-startup-id swaymsg exec reboot, mode "default"
-	bindsym Shift+s exec --no-startup-id swaymsg exec shutdown, mode "default"
+	bindsym Shift+s exec --no-startup-id swaymsg exec shutdown now, mode "default"
 
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
