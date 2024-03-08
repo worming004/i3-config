@@ -197,3 +197,5 @@ exec --no-startup-id slack --enable-features=UseOzonePlatform --ozone-platform=w
 # exec --no-startup-id discord
 # exec --no-startup-id thunderbird
 
+# important for compatibility with some apps like slack
+include @sysconfdir@/sway/config.d/*
