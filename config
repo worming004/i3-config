@@ -192,7 +192,7 @@ for_window [class="firefox"] move to workspace $web
 for_window [class="thunderbird"] move to workspace $mail
 
 exec --no-startup-id spotify --enable-features=UseOzonePlatform --ozone-platform=wayland
-exec --no-startup-id google-chrome-stable --enable-features=UseOzonePlatform --ozone-platform=wayland
+exec --no-startup-id google-chrome-stable --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-features=WaylandWindowDecorations --ozone-platform-hint=auto
 exec --no-startup-id slack --enable-features=UseOzonePlatform --ozone-platform=wayland
 # exec --no-startup-id discord
 # exec --no-startup-id thunderbird
