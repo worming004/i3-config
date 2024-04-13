@@ -182,7 +182,7 @@ input type:keyboard {
 }
 input type:pointer {
     accel_profile "flat" # disable mouse acceleration (enabled by default; to set it manually, use "adaptive" instead of "flat")
-    pointer_accel 0.48 # set mouse sensitivity (between -1 and 1)
+    pointer_accel 0.42 # set mouse sensitivity (between -1 and 1)
 }
 for_window [class="Spotify"] move to workspace $spotify
 for_window [class="discord"] move to workspace $chat
